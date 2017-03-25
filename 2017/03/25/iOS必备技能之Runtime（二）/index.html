@@ -1,0 +1,951 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS,OC,教程,IT," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="当向一个对象发送消息，如果方法被实现了，则直接在底层使用消息机制调动该方法，如果方法没有被实现，则响应链最前端是《iOS必备技能之Runtime（一）》中提到的动态方法解决方案，如果方法被动态添加，那么这个消息会被对象接收；如果消息不能被接收，则响应链会寻找有没有实现消息转发的方法，让别的类去接收这个消息；如果消息转发也找不到对应的方法实现，那么程序才会报错（unrecognized sele">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS必备技能之Runtime（二）">
+<meta property="og:url" content="http://lifan666.win/2017/03/25/iOS必备技能之Runtime（二）/index.html">
+<meta property="og:site_name" content="陌浅·轩">
+<meta property="og:description" content="当向一个对象发送消息，如果方法被实现了，则直接在底层使用消息机制调动该方法，如果方法没有被实现，则响应链最前端是《iOS必备技能之Runtime（一）》中提到的动态方法解决方案，如果方法被动态添加，那么这个消息会被对象接收；如果消息不能被接收，则响应链会寻找有没有实现消息转发的方法，让别的类去接收这个消息；如果消息转发也找不到对应的方法实现，那么程序才会报错（unrecognized sele">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1587104-3f5ffd530527cc8c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1587104-a6eb9131c0f9c5cb.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2017-03-25T13:16:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS必备技能之Runtime（二）">
+<meta name="twitter:description" content="当向一个对象发送消息，如果方法被实现了，则直接在底层使用消息机制调动该方法，如果方法没有被实现，则响应链最前端是《iOS必备技能之Runtime（一）》中提到的动态方法解决方案，如果方法被动态添加，那么这个消息会被对象接收；如果消息不能被接收，则响应链会寻找有没有实现消息转发的方法，让别的类去接收这个消息；如果消息转发也找不到对应的方法实现，那么程序才会报错（unrecognized sele">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1587104-3f5ffd530527cc8c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://lifan666.win/2017/03/25/iOS必备技能之Runtime（二）/"/>
+
+
+
+
+
+  <title> iOS必备技能之Runtime（二） | 陌浅·轩 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">陌浅·轩</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">坚持是最好的美德</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://lifan666.win/2017/03/25/iOS必备技能之Runtime（二）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="陌浅">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陌浅·轩">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS必备技能之Runtime（二）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T21:15:09+08:00">
+                2017-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS开发</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS开发/OC/" itemprop="url" rel="index">
+                    <span itemprop="name">OC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/1587104-3f5ffd530527cc8c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Apple.jpg"></p>
+<blockquote>
+<p>当向一个对象发送消息，如果方法被实现了，则直接在底层使用消息机制调动该方法，如果方法没有被实现，则响应链最前端是<a href="http://www.jianshu.com/p/332698be594c" target="_blank" rel="external">《iOS必备技能之Runtime（一）》</a>中提到的<strong>动态方法解决方案</strong>，如果方法被动态添加，那么这个消息会被对象接收；如果消息不能被接收，则响应链会寻找有没有实现<strong>消息转发</strong>的方法，让别的类去接收这个消息；如果消息转发也找不到对应的方法实现，那么程序才会<strong>报错</strong>（unrecognized selector sent to instance）。</p>
+</blockquote>
+<h2 id="四、消息转发"><a href="#四、消息转发" class="headerlink" title="四、消息转发"></a>四、消息转发</h2><p>消息转发有两种，一种是对消息可定制的，一种是不可定制的。响应链优先响应不可定制的消息转发，如果没有实现就去响应可定制的消息转发。</p>
+<h4 id="简单消息转发（不可定制）"><a href="#简单消息转发（不可定制）" class="headerlink" title="简单消息转发（不可定制）"></a>简单消息转发（不可定制）</h4><p>简单的消息转发对转发的消息不可以修改，怎么发过来的怎么转走。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (id)forwardingTargetForSelector:(SEL)aSelector</div></pre></td></tr></table></figure></p>
+<p>这个方法赋予实现这个方法的类一个“传球”的能力，如果该类没有实现这个方法，那么<code>forwardingTargetForSelector:</code>返回一个其他类的对象，让其他类里面的方法代为实现。如下示例，该类没有实现method方法，但是转发给OtherClass来实现这个方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (id)forwardingTargetForSelector:(SEL)aSelector &#123;</div><div class="line">    if (aSelector == @selector(method)) &#123;</div><div class="line">        [[OtherClass alloc] init];</div><div class="line">    &#125;</div><div class="line">    return [super forwardingTargetForSelector:aSelector];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>这个方法只能让我们把消息转发到另一个能处理这个消息的对象，但是无法处理消息的内容，比如参数和返回值。</p>
+</blockquote>
+<h4 id="完整消息转发（可定制）"><a href="#完整消息转发（可定制）" class="headerlink" title="完整消息转发（可定制）"></a>完整消息转发（可定制）</h4><p>当前面两种方法分别返回NO和nil时，完整的消息转发<code>forwardInvocation:</code>就是保证程序不报“unrecognized selector sent to instance”错误的最后一关了。在完整消息转发里面，<code>forwardInvocation:</code>会对消息进行相应，对象会创建一个NSInvocation对象，把与尚未处理原始消息和参数一起封装起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (void)forwardInvocation:(NSInvocation *)anInvocation</div></pre></td></tr></table></figure></p>
+<p>为了理解转发的意图和范围，想象这样一个情景：假使在一个对象里你希望能够响应<code>negotiate</code>方法，并且其他几个不同类的对象也能够响应这个方法（这几个类实现了<code>negotiate</code>方法），最先想到的方法应该是直接发送消息到这几个类里面。<br>进一步思考，假使你的这个对象对<code>negotiate</code>方法的相应的实现恰恰在其他的类里面，一种实现方法就是让这个对象的类去继承那个类的方法，这样你就可以直接在在这个类里面调用<code>negotiate</code>方法了。但是，既然他们被分为不同的类，不属于同一继承体系，这也就意味着大部分情况下你往往不能够这么做。<br>虽然你不能继承<code>negotiate</code>方法，但是你可以通过把消息直接发送给其他类的对象的方式把这个方法“借”过来。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (id)negotiate</div><div class="line">&#123;</div><div class="line">    if ( [someOtherObject respondsTo:@selector(negotiate)] )</div><div class="line">        return [someOtherObject negotiate];</div><div class="line">    return self;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>但是上面这种处理方式显得有些不灵活，特别是当你想把不止一个消息传递给其他对象的时候——你必须为每一个想要借过来的方法提供和上面类似的实现。另外，如果这些消息本来就是基于runtime的，会随着新的方法和类的改变而改变其实现，那么这种处理方式就变得捉襟见肘了。<br><code>forwardInvocation:</code>就能很轻便地解决这个问题，它是这样工作的：当一个对象因为没有消息中对应方法名的方法而不能去响应消息的时候，runtime系统通知这个对象发送<code>forwardInvocation:</code>消息。每一个对象都从NSObject中继承得到<code>forwardInvocation:</code>方法，但是在NSObject的这个方法中只是简单调用了 <code>doesNotRecognizeSelector:</code>，这是个abstract方法（类似于C++的纯虚函数），当子类没有实现这个方法的时候，外部调用这个方法就会抛出异常。</p>
+<blockquote>
+<p>只有当消息的接收者没能调用任何一个该类已经存在的方法的时候，<code>forwardInvocation:</code>方法才能够被调用来处理消息。比如，你想；要你的对象吧<code>negotiate</code>方法转发到其他类的对象，那么它本身就不能有<code>negotiate</code>方法。如果有这个方法，那么该类中就不会调用<code>forwardInvocation:</code>方法。</p>
+</blockquote>
+<p>为了能够转发消息，所有的<code>forwardInvocation:</code>方法必须要做下面两件事：</p>
+<ul>
+<li>决定消息要去哪儿</li>
+<li>带着原始的参数向目标进行发送</li>
+</ul>
+<p>消息可以用<code>invokeWithTarget:</code>来进行发送：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (void)forwardInvocation:(NSInvocation *)anInvocation</div><div class="line">&#123;</div><div class="line">    if ([someOtherObject respondsToSelector:</div><div class="line">            [anInvocation selector]])</div><div class="line">        [anInvocation invokeWithTarget:someOtherObject];</div><div class="line">    else</div><div class="line">        [super forwardInvocation:anInvocation];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>runtime系统首先会调用<code>methodSignatureForSelector:</code>方法来获得方法签名，方法签名记录了方法的参数和返回值的信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">- (NSMethodSignature*)methodSignatureForSelector:(SEL)selector</div><div class="line">&#123;</div><div class="line">    NSMethodSignature* signature = [super methodSignatureForSelector:selector];</div><div class="line">    if (!signature) &#123;</div><div class="line">       signature = [target methodSignatureForSelector:selector];</div><div class="line">    &#125;</div><div class="line">    return signature;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>转发的消息的返回值是要返回到原始的发送者的，所有的可以返回的类型都能被传递，包括id类型、结构体类型、双精度的浮点型数据等。</p>
+</blockquote>
+<p>一个<code>forwardInvocation:</code>方法可以作为所有未被识别的消息的“分配中心”，把消息打包发送到不同的目标。或者说它可以是一个“换乘站”，把所有的消息发送到同一个目标。它可以把消息进行转化，或者只是简单地“吞掉”它，这样就会没有回应也没有报错。它还可以把几个消息集成到一个响应中。总结起来就是一句话，这个方法能做什么取决去它的实现。</p>
+<h4 id="转发和多继承的异同"><a href="#转发和多继承的异同" class="headerlink" title="转发和多继承的异同"></a>转发和多继承的异同</h4><p>虽然Objectiv-C不支持多继承，但是使用转发来模仿继承，可以让Objective-C实现一部分多继承的特性。如下图所示，一个对象通过转发来响应消息就像是从其它类里面“借“或者说”继承“一个方法的实现一样。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1587104-a6eb9131c0f9c5cb.gif?imageMogr2/auto-orient/strip" alt="forwarding.gif"><br>在上图中，Warrior类把<code>negotiate</code>方法转发到Diplomat类的实例中，就像是Warrior类在实现<code>negotiate</code>方法一样，它会对<code>negotiate</code>方法做出响应。<br>所以，转发和多继承有很多相似的特点，但是，它们有以下根本的不同之处：</p>
+<ol>
+<li>继承是把多种功能集中到了单个的对象中，它使类趋向于巨大化、全能化。相反地，转发是把职责进行了分化，它把一个问题分成了若干小的问题分配给不同的小对象，通过转发进行关联。</li>
+<li><code>respondsToSelector:</code>、<code>instanceRespondToSelector</code>和<code>isKindOfClass:</code>方法只看继承树，不看转发链，比如<code>[aWarrior respondsToSelector:@selector(negotiate)]</code>在这里为假，即使它能够接收<code>negotiate</code>的消息并且进行响应。如果使用了协议，那么<code>conformsToProtocol:</code>方法也在此列。但是你可以通过重写这些方法让他在转发中发挥和继承中一样的作用：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">- (BOOL)respondsToSelector:(SEL)aSelector</div><div class="line">&#123;</div><div class="line">    if ( [super respondsToSelector:aSelector] )</div><div class="line">        return YES;</div><div class="line">    else &#123;</div><div class="line">        /* Here, test whether the aSelector message can     *</div><div class="line">         * be forwarded to another object and whether that  *</div><div class="line">         * object can respond to it. Return YES if it can.  */</div><div class="line">    &#125;</div><div class="line">    return NO;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>这个技巧只适合在没有其他可以使用的方法的情况下使用，它并不可以取代继承的作用。</p>
+</blockquote>
+<h4 id="代理对象"><a href="#代理对象" class="headerlink" title="代理对象"></a>代理对象</h4><p>转发不只只是模仿多继承，它尽可能地产生了更轻量化的对象去实现尽可能多的原本属于很多相关对象的特性。代理对象作为其他类的替身，把消息如实传递过去。代理对象更关注的是在向其他类的对象(远程对象)抓发消息这个过程的细节，比如确保在连接远程对象的过程中每个参数被正确传达等。但是它在这个过程中并不是把远程对象做了副本，而是创建了一个对应于远程对象的本地地址，通过这个地址，远程对象在其他应用可以收到这些转发的消息。<br>还有一种情况，比如你有一个对象需要处理大批量的数据——创建一个复杂的图片或者从本地磁盘中读取文件等，这种情况下使用代理对象也是很合适的。创建一个这样的对象是很耗时的，所以我们希望只有在它确实需要或者在系统资源临时闲置的时候才回去创建它，但是又要保证存在这个对象的占位符使得其他对象涉及到这个对象的时候能够正常运行。<br>在这种情况下，你可以在最开始的时候不要创建一个全功能的对象，而是创建一个代理对象给它。这个代理对象主要就是为即将创建的大型对象做一个占位，或是在时机成熟的时候，进行消息转发。当代理对象的<code>forwardInvocation：</code>方法第一次被调用的时候，它要确认代理的对象是不是存在了，如果还没有存在，就去创建它。在这个对象的其他功能被需要之前，代理对象和这个对象在意义上其实就是一样的。</p>
+<hr>
+<p>参考：<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html" target="_blank" rel="external">《Objective-C Runtime Programing Guide》</a></p>
+<hr>
+<p>链接：<br><a href="http://www.jianshu.com/p/332698be594c" target="_blank" rel="external">《iOS必备技能之Runtime（一）》</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/OC/" rel="tag"># OC</a>
+          
+            <a href="/tags/教程/" rel="tag"># 教程</a>
+          
+            <a href="/tags/IT/" rel="tag"># IT</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/25/iOS必备技能之Runtime（一）/" rel="next" title="iOS必备技能之Runtime（一）">
+                <i class="fa fa-chevron-left"></i> iOS必备技能之Runtime（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="陌浅" />
+          <p class="site-author-name" itemprop="name">陌浅</p>
+           
+              <p class="site-description motion-element" itemprop="description">iOS工程师一枚，对技术提升有深深的渴望，欢迎交流。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#四、消息转发"><span class="nav-number">1.</span> <span class="nav-text">四、消息转发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简单消息转发（不可定制）"><span class="nav-number">1.0.1.</span> <span class="nav-text">简单消息转发（不可定制）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完整消息转发（可定制）"><span class="nav-number">1.0.2.</span> <span class="nav-text">完整消息转发（可定制）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转发和多继承的异同"><span class="nav-number">1.0.3.</span> <span class="nav-text">转发和多继承的异同</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代理对象"><span class="nav-number">1.0.4.</span> <span class="nav-text">代理对象</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">陌浅</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- 动态线条 -->
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+  <!-- 小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
