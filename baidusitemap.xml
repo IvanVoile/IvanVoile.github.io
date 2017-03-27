@@ -2,36 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     
-    
-    
-    
-  <url>
-    <loc>http://lifan666.win/2017/03/25/Mac%E9%87%8D%E8%A3%85-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</loc>
-    <lastmod>2017-03-25T13:21:59.000Z</lastmod>
-    <data>
-        <display>
-        <title>Mac重装+初始化配置</title>
-        <pubTime>2017-03-25T13:11:08.000Z</pubTime>
-        
-        <tag>Mac </tag>
-         
-        <tag>教程 </tag>
-         
-        <tag>IT </tag>
-         
-         
-           
-             
-              <breadCrumb title="技术宅" url="http://lifan666.win/categories/%E6%8A%80%E6%9C%AF%E5%AE%85/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
   <url>
     <loc>http://lifan666.win/2017/03/25/iOS%E5%BF%85%E5%A4%87%E6%8A%80%E8%83%BD%E4%B9%8BRuntime%EF%BC%88%E4%BA%8C%EF%BC%89/</loc>
-    <lastmod>2017-03-25T13:16:05.000Z</lastmod>
+    <lastmod>2017-03-27T10:04:48.000Z</lastmod>
     <data>
         <display>
         <title>iOS必备技能之Runtime（二）</title>
@@ -60,7 +33,7 @@
     
   <url>
     <loc>http://lifan666.win/2017/03/25/iOS%E5%BF%85%E5%A4%87%E6%8A%80%E8%83%BD%E4%B9%8BRuntime%EF%BC%88%E4%B8%80%EF%BC%89/</loc>
-    <lastmod>2017-03-25T13:14:47.000Z</lastmod>
+    <lastmod>2017-03-27T10:04:18.000Z</lastmod>
     <data>
         <display>
         <title>iOS必备技能之Runtime（一）</title>
@@ -83,6 +56,33 @@
           
              
               <breadCrumb title="OC" url="http://lifan666.win/categories/iOS%E5%BC%80%E5%8F%91/OC/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+    
+  <url>
+    <loc>http://lifan666.win/2017/03/25/Mac%E9%87%8D%E8%A3%85-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2017-03-25T13:21:59.000Z</lastmod>
+    <data>
+        <display>
+        <title>Mac重装+初始化配置</title>
+        <pubTime>2017-03-25T13:11:08.000Z</pubTime>
+        
+        <tag>Mac </tag>
+         
+        <tag>教程 </tag>
+         
+        <tag>IT </tag>
+         
+         
+           
+             
+              <breadCrumb title="技术宅" url="http://lifan666.win/categories/%E6%8A%80%E6%9C%AF%E5%AE%85/"/>
           
         </display>
     </data>

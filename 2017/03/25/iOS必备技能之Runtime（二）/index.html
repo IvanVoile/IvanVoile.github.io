@@ -97,7 +97,7 @@
 <meta property="og:description" content="当向一个对象发送消息，如果方法被实现了，则直接在底层使用消息机制调动该方法，如果方法没有被实现，则响应链最前端是《iOS必备技能之Runtime（一）》中提到的动态方法解决方案，如果方法被动态添加，那么这个消息会被对象接收；如果消息不能被接收，则响应链会寻找有没有实现消息转发的方法，让别的类去接收这个消息；如果消息转发也找不到对应的方法实现，那么程序才会报错（unrecognized sele">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1587104-3f5ffd530527cc8c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1587104-a6eb9131c0f9c5cb.gif?imageMogr2/auto-orient/strip">
-<meta property="og:updated_time" content="2017-03-25T13:16:05.000Z">
+<meta property="og:updated_time" content="2017-03-27T10:04:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS必备技能之Runtime（二）">
 <meta name="twitter:description" content="当向一个对象发送消息，如果方法被实现了，则直接在底层使用消息机制调动该方法，如果方法没有被实现，则响应链最前端是《iOS必备技能之Runtime（一）》中提到的动态方法解决方案，如果方法被动态添加，那么这个消息会被对象接收；如果消息不能被接收，则响应链会寻找有没有实现消息转发的方法，让别的类去接收这个消息；如果消息转发也找不到对应的方法实现，那么程序才会报错（unrecognized sele">
@@ -396,7 +396,7 @@
       
         <p><img src="http://upload-images.jianshu.io/upload_images/1587104-3f5ffd530527cc8c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Apple.jpg"></p>
 <blockquote>
-<p>当向一个对象发送消息，如果方法被实现了，则直接在底层使用消息机制调动该方法，如果方法没有被实现，则响应链最前端是<a href="http://www.jianshu.com/p/332698be594c" target="_blank" rel="external">《iOS必备技能之Runtime（一）》</a>中提到的<strong>动态方法解决方案</strong>，如果方法被动态添加，那么这个消息会被对象接收；如果消息不能被接收，则响应链会寻找有没有实现<strong>消息转发</strong>的方法，让别的类去接收这个消息；如果消息转发也找不到对应的方法实现，那么程序才会<strong>报错</strong>（unrecognized selector sent to instance）。</p>
+<p>当向一个对象发送消息，如果方法被实现了，则直接在底层使用消息机制调动该方法，如果方法没有被实现，则响应链最前端是《iOS必备技能之Runtime（一）》中提到的<strong>动态方法解决方案</strong>，如果方法被动态添加，那么这个消息会被对象接收；如果消息不能被接收，则响应链会寻找有没有实现<strong>消息转发</strong>的方法，让别的类去接收这个消息；如果消息转发也找不到对应的方法实现，那么程序才会<strong>报错</strong>（unrecognized selector sent to instance）。</p>
 </blockquote>
 <h2 id="四、消息转发"><a href="#四、消息转发" class="headerlink" title="四、消息转发"></a>四、消息转发</h2><p>消息转发有两种，一种是对消息可定制的，一种是不可定制的。响应链优先响应不可定制的消息转发，如果没有实现就去响应可定制的消息转发。</p>
 <h4 id="简单消息转发（不可定制）"><a href="#简单消息转发（不可定制）" class="headerlink" title="简单消息转发（不可定制）"></a>简单消息转发（不可定制）</h4><p>简单的消息转发对转发的消息不可以修改，怎么发过来的怎么转走。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (id)forwardingTargetForSelector:(SEL)aSelector</div></pre></td></tr></table></figure></p>
@@ -436,7 +436,6 @@
 <hr>
 <p>参考：<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Introduction/Introduction.html" target="_blank" rel="external">《Objective-C Runtime Programing Guide》</a></p>
 <hr>
-<p>链接：<br><a href="http://www.jianshu.com/p/332698be594c" target="_blank" rel="external">《iOS必备技能之Runtime（一）》</a></p>
 
       
     </div>
