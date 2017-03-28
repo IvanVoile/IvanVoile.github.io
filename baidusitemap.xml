@@ -3,7 +3,35 @@
 
     
   <url>
-    <loc>http://lifan666.win/2017/03/25/iOS%E5%BF%85%E5%A4%87%E6%8A%80%E8%83%BD%E4%B9%8BRuntime%EF%BC%88%E4%BA%8C%EF%BC%89/</loc>
+    <loc>http://www.lifan666.win/2017/03/28/Hexo-NexT-GitHub-Pages%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2017-03-28T02:46:08.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hexo+NexT+GitHub Pages从零开始搭建博客</title>
+        <pubTime>2017-03-28T02:43:57.000Z</pubTime>
+        
+        <tag>Hexo </tag>
+         
+        <tag>NexT </tag>
+         
+        <tag>GitHub </tag>
+         
+        <tag>教程 </tag>
+         
+        <tag>IT </tag>
+         
+         
+           
+             
+              <breadCrumb title="技术宅" url="http://www.lifan666.win/categories/%E6%8A%80%E6%9C%AF%E5%AE%85/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.lifan666.win/2017/03/25/iOS%E5%BF%85%E5%A4%87%E6%8A%80%E8%83%BD%E4%B9%8BRuntime%EF%BC%88%E4%BA%8C%EF%BC%89/</loc>
     <lastmod>2017-03-27T10:04:48.000Z</lastmod>
     <data>
         <display>
@@ -21,10 +49,10 @@
          
            
              
-              <breadCrumb title="iOS开发" url="http://lifan666.win/categories/iOS%E5%BC%80%E5%8F%91/"/>
+              <breadCrumb title="iOS开发" url="http://www.lifan666.win/categories/iOS%E5%BC%80%E5%8F%91/"/>
           
              
-              <breadCrumb title="OC" url="http://lifan666.win/categories/iOS%E5%BC%80%E5%8F%91/OC/"/>
+              <breadCrumb title="OC" url="http://www.lifan666.win/categories/iOS%E5%BC%80%E5%8F%91/OC/"/>
           
         </display>
     </data>
@@ -32,7 +60,7 @@
 
     
   <url>
-    <loc>http://lifan666.win/2017/03/25/iOS%E5%BF%85%E5%A4%87%E6%8A%80%E8%83%BD%E4%B9%8BRuntime%EF%BC%88%E4%B8%80%EF%BC%89/</loc>
+    <loc>http://www.lifan666.win/2017/03/25/iOS%E5%BF%85%E5%A4%87%E6%8A%80%E8%83%BD%E4%B9%8BRuntime%EF%BC%88%E4%B8%80%EF%BC%89/</loc>
     <lastmod>2017-03-27T10:04:18.000Z</lastmod>
     <data>
         <display>
@@ -52,10 +80,10 @@
          
            
              
-              <breadCrumb title="iOS开发" url="http://lifan666.win/categories/iOS%E5%BC%80%E5%8F%91/"/>
+              <breadCrumb title="iOS开发" url="http://www.lifan666.win/categories/iOS%E5%BC%80%E5%8F%91/"/>
           
              
-              <breadCrumb title="OC" url="http://lifan666.win/categories/iOS%E5%BC%80%E5%8F%91/OC/"/>
+              <breadCrumb title="OC" url="http://www.lifan666.win/categories/iOS%E5%BC%80%E5%8F%91/OC/"/>
           
         </display>
     </data>
@@ -66,23 +94,23 @@
     
     
   <url>
-    <loc>http://lifan666.win/2017/03/25/Mac%E9%87%8D%E8%A3%85-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</loc>
+    <loc>http://www.lifan666.win/2017/03/25/Mac%E9%87%8D%E8%A3%85-%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2017-03-25T13:21:59.000Z</lastmod>
     <data>
         <display>
         <title>Mac重装+初始化配置</title>
         <pubTime>2017-03-25T13:11:08.000Z</pubTime>
         
-        <tag>Mac </tag>
-         
         <tag>教程 </tag>
          
         <tag>IT </tag>
          
+        <tag>Mac </tag>
+         
          
            
              
-              <breadCrumb title="技术宅" url="http://lifan666.win/categories/%E6%8A%80%E6%9C%AF%E5%AE%85/"/>
+              <breadCrumb title="技术宅" url="http://www.lifan666.win/categories/%E6%8A%80%E6%9C%AF%E5%AE%85/"/>
           
         </display>
     </data>
