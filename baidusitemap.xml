@@ -3,36 +3,8 @@
 
     
   <url>
-    <loc>http://www.lifan666.win/2017/03/28/Hexo-NexT-GitHub-Pages%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2017-03-28T02:46:08.000Z</lastmod>
-    <data>
-        <display>
-        <title>Hexo+NexT+GitHub Pages从零开始搭建博客</title>
-        <pubTime>2017-03-28T02:43:57.000Z</pubTime>
-        
-        <tag>教程 </tag>
-         
-        <tag>IT </tag>
-         
-        <tag>Hexo </tag>
-         
-        <tag>NexT </tag>
-         
-        <tag>GitHub </tag>
-         
-         
-           
-             
-              <breadCrumb title="技术宅" url="http://www.lifan666.win/categories/%E6%8A%80%E6%9C%AF%E5%AE%85/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://www.lifan666.win/2017/03/25/iOS%E5%BF%85%E5%A4%87%E6%8A%80%E8%83%BD%E4%B9%8BRuntime%EF%BC%88%E4%BA%8C%EF%BC%89/</loc>
-    <lastmod>2017-03-27T10:04:48.000Z</lastmod>
+    <lastmod>2017-08-29T08:17:06.000Z</lastmod>
     <data>
         <display>
         <title>iOS必备技能之Runtime（二）</title>
@@ -61,7 +33,7 @@
     
   <url>
     <loc>http://www.lifan666.win/2017/03/25/iOS%E5%BF%85%E5%A4%87%E6%8A%80%E8%83%BD%E4%B9%8BRuntime%EF%BC%88%E4%B8%80%EF%BC%89/</loc>
-    <lastmod>2017-03-27T10:04:18.000Z</lastmod>
+    <lastmod>2017-08-29T08:16:10.000Z</lastmod>
     <data>
         <display>
         <title>iOS必备技能之Runtime（一）</title>
@@ -90,6 +62,34 @@
     </url>
 
     
+  <url>
+    <loc>http://www.lifan666.win/2017/03/28/Hexo-NexT-GitHub-Pages%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2017-08-29T08:14:21.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hexo+NexT+GitHub Pages从零开始搭建博客</title>
+        <pubTime>2017-03-28T02:43:57.000Z</pubTime>
+        
+        <tag>Hexo </tag>
+         
+        <tag>NexT </tag>
+         
+        <tag>GitHub </tag>
+         
+        <tag>教程 </tag>
+         
+        <tag>IT </tag>
+         
+         
+           
+             
+              <breadCrumb title="技术宅" url="http://www.lifan666.win/categories/%E6%8A%80%E6%9C%AF%E5%AE%85/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
     
     
@@ -101,11 +101,11 @@
         <title>Mac重装+初始化配置</title>
         <pubTime>2017-03-25T13:11:08.000Z</pubTime>
         
-        <tag>Mac </tag>
-         
         <tag>教程 </tag>
          
         <tag>IT </tag>
+         
+        <tag>Mac </tag>
          
          
            
